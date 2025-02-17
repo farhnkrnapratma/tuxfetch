@@ -1,0 +1,28 @@
+name: Makefile CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - Makefile
+      
+  pull_request:
+    branches:
+      - main
+    paths:
+      - Makefile
+
+jobs:
+  makefile-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install
+      run: make install
+    - name: Update
+      run: make update
+    - name: Uninstall
+      run: make uninstall
+    - name: Clean Update
+      run: make clean-update

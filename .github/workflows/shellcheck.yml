@@ -1,0 +1,23 @@
+name: Tuxfetch CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - tuxfetch
+      
+  pull_request:
+    branches:
+      - main
+    paths:
+      - tuxfetch
+      
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Lint using ShellCheck
+        uses: ludeeus/action-shellcheck@master
