@@ -18,6 +18,14 @@ Run `make uninstall` to uninstall Tuxfetch and its configuration file.
 
 Run `make update` to update Tuxfetch to the newer version or you can run `make clean-update` to update Tuxfetch and regenerate its configuration file. 
 
-## Contribute
+### Contributing
 
-You can contribute by helping donate or sending a pull request to this repository.
+You can contribute to this project by submitting an issue or pull request in the Tuxfetch GitHub repository. You can also contribute by donating to the GitHub or Open Collective maintainer account.
+
+### Maintainer
+
+Farhan Kurnia Pratama [`farhnkrnapratma@protonmail.com`](farhnkrnapratma@protonmail.com)
+
+---
+
+&copy; 2025 Farhan Kurnia Pratama
