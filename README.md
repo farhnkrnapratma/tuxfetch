@@ -20,7 +20,7 @@ Run `make update` to update Tuxfetch to the newer version or you can run `make c
 
 ### Contributing
 
-You can contribute to this project by submitting an issue or pull request in the Tuxfetch GitHub repository. You can also contribute by donating to the GitHub or Open Collective maintainer account.
+You can contribute to this project by submitting an issue or pull request in the Tuxfetch GitHub repository. You can also contribute by donating to the maintainer.
 
 ### Maintainer
 
