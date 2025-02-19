@@ -21,16 +21,17 @@ tuxman() {
       if [[ "$check_version" != "v$latest_version" ]]; then
         echo -e "A new version of Tuxfetch (${C}$check_version${R}) is now available on GitHub."
 
-        echo -en "Would you like to ${C}$1${R} now? [${C}Y${R}/${C}n${R}] "; read update_option
+        echo -en "Would you like to ${C}$1${R} now? [${C}Y${R}/${C}n${R}] "
+        read -r update_option
         update_option=${update_option:-Y}
 
         case "$update_option" in
           Y|y)
             echo "Updating Tuxfetch..."
             git clone "$github_url".git "$HOME/tuxfetch"
-            cd "$HOME/tuxfetch"
+            cd "$HOME/tuxfetch" || exit
             make "$1"
-            cd "$HOME"
+            cd "$HOME" || exit
             rm -rf "$HOME/tuxfetch"
             echo "Successfully updated Tuxfetch."
             ;;
@@ -46,7 +47,8 @@ tuxman() {
       fi
       ;;
     uninstall|clean-uninstall)
-      echo -en "Would you like to ${C}$1${R} Tuxfetch? [${C}Y${R}/${C}n${R}] "; read uninstall_option
+      echo -en "Would you like to ${C}$1${R} Tuxfetch? [${C}Y${R}/${C}n${R}] "
+      read -r uninstall_option
       uninstall_option=${uninstall_option:-Y}
 
       case "$uninstall_option" in
@@ -465,6 +467,10 @@ tuptime() {
       echo -e "\e[${cl[uptimecl]}m$tiny_no_second\e[0m"
       ;;
   esac
+}
+
+txcolors() {
+  echo -e "\e[${cl[7]}m\e[0m   \e[${cl[8]}m\e[0m   \e[${cl[9]}m\e[0m   \e[${cl[10]}m\e[0m   \e[${cl[11]}m\e[0m   \e[${cl[12]}m\e[0m   \e[${cl[13]}m\e[0m"
 }
 
 yield() {

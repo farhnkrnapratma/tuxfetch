@@ -7,8 +7,6 @@ on:
       - dev
     paths:
       - tuxfetch
-      - tuxfetch-utils
-      - init
       
   pull_request:
     branches:
@@ -16,8 +14,6 @@ on:
       - dev
     paths:
       - tuxfetch
-      - tuxfetch-utils
-      - init
       
 jobs:
   lint-and-test:
