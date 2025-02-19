@@ -4,14 +4,20 @@ on:
   push:
     branches:
       - main
+      - dev
     paths:
       - tuxfetch
+      - tuxfetch-utils
+      - init
       
   pull_request:
     branches:
       - main
+      - dev
     paths:
       - tuxfetch
+      - tuxfetch-utils
+      - init
       
 jobs:
   lint-and-test:

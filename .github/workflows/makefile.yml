@@ -4,12 +4,14 @@ on:
   push:
     branches:
       - main
+      - dev
     paths:
       - Makefile
       
   pull_request:
     branches:
       - main
+      - dev
     paths:
       - Makefile
 
@@ -18,11 +20,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+
+    - name: Do Install
+      uses: make do-install
+    
+    - name: Do Config
+      uses: make do-install
+
     - name: Install
-      run: make install
+      uses: make install
+
+    - name: Clean Install
+      uses: make clean-install
+
     - name: Update
-      run: make update
-    - name: Uninstall
-      run: make uninstall
+      uses: make update
+
     - name: Clean Update
-      run: make clean-update
+      uses: make clean-update
+    
+    - name: Uninstall
+      uses: make uninstall
+
+    - name: Clean Uninstall
+      uses: make clean-uninstall

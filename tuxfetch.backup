@@ -467,10 +467,6 @@ tuptime() {
   esac
 }
 
-txcolors() {
-  echo -e "\e[${cl[7]}m\e[0m   \e[${cl[8]}m\e[0m   \e[${cl[9]}m\e[0m   \e[${cl[10]}m\e[0m   \e[${cl[11]}m\e[0m   \e[${cl[12]}m\e[0m   \e[${cl[13]}m\e[0m"
-}
-
 yield() {
   if [ "$#" -eq 2 ]; then
     case "$separator" in
