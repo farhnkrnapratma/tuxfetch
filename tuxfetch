@@ -5,8 +5,8 @@
 
 # shellcheck disable=SC1091,SC2154
 
-latest_version="0.1.0"
-release_date="Wednesday, February 19 2025 09:30 GMT+7"
+latest_version="0.2.0-preview"
+release_date="Thursday, February 20 2025 06:23 GMT+7"
 license="MIT License"
 github_url="https://github.com/farhnkrnapratma/tuxfetch"
 
