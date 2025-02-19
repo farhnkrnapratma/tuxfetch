@@ -5,15 +5,11 @@ on:
     branches:
       - main
       - dev
-    paths:
-      - Makefile
       
   pull_request:
     branches:
       - main
       - dev
-    paths:
-      - Makefile
 
 jobs:
   makefile-test:
