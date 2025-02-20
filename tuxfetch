@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
-# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@protonmail.com>
+# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@protonmail.com> <farhnkrnapratma@gmail.com>
 
 # shellcheck disable=SC1091,SC2154
 
 latest_version="0.2.0-preview"
-release_date="Thursday, February 20 2025 06:23 GMT+7"
+release_date="Thursday, February 20, 2025, 06:23 GMT+7"
+release_code="TXF020P20250220T0623000700"
 license="MIT License"
 github_url="https://github.com/farhnkrnapratma/tuxfetch"
 
@@ -109,6 +110,7 @@ if [ -n "$1" ]; then
     --version|-v)
       echo -e "Version      : ${C}v$latest_version${R}"
       echo -e "Release Date : ${C}$release_date${R}"
+      echo -e "Release Code : ${C}$release_code${R}"
       echo -e "License      : ${C}$license${R}"
       echo -e "GitHub       : ${C}$github_url${R}"
       exit
