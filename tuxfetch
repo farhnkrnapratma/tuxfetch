@@ -251,7 +251,10 @@ uptimecl="10"
 EOF
 }
 
-if [ ! -f "$tuxfig" ]; then
+if [ -f "$tuxfig" ]; then
+  # shellcheck source=$HOME/.config/tuxfetch/init
+  source "$tuxfig"
+else
   echo -en "Configuration file not found, generate default configuration? [${C}Y${R}/${C}n${R}] "
   read -r tuxfig_option
   tuxfig_option=${tuxfig_option:-Y}
@@ -260,6 +263,7 @@ if [ ! -f "$tuxfig" ]; then
       mkdir -p "$HOME/.config/tuxfetch"
       tuxer
       clear
+      # shellcheck source=$HOME/.config/tuxfetch/init
       source "$tuxfig"
       ;;
     N|n)
@@ -271,8 +275,6 @@ if [ ! -f "$tuxfig" ]; then
       exit
       ;;
   esac
-else
-  source "$tuxfig"
 fi
 
 cl=(31 32 33 34 35 36 37 91 92 93 94 95 96 97)
