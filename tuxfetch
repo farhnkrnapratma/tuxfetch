@@ -144,7 +144,7 @@ if [ -n "$1" ]; then
 fi
 
 tuxer() {
-cat <<-EOF > "$HOME/.config/tuxfetch/init"
+cat <<-EOF > $HOME/.config/tuxfetch/init
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
 # Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com> <farhnkrnapratma@gmail.com>
 
@@ -253,18 +253,18 @@ uptimecl="10"
 EOF
 }
 
-if [ -f "$HOME/.config/tuxfetch/init" ]; then
-  source "$tuxfig"
+if [ -f $HOME/.config/tuxfetch/init ]; then
+  source $HOME/.config/tuxfetch/init
 else
   echo -en "Configuration file not found, generate default configuration? [${C}Y${R}/${C}n${R}] "
   read -r tuxfig_option
   tuxfig_option=${tuxfig_option:-Y}
   case "$tuxfig_option" in
     Y|y)
-      mkdir -p "$HOME/.config/tuxfetch"
+      mkdir -p $HOME/.config/tuxfetch
       tuxer
       clear
-      source "$HOME/.config/tuxfetch/init"
+      source $HOME/.config/tuxfetch/init
       ;;
     N|n)
       echo "Aborted."
