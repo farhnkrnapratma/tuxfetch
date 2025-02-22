@@ -33,4 +33,4 @@ jobs:
       - name: Lint using ShellCheck
         uses: ludeeus/action-shellcheck@master
         with:
-          args: --exclude=SC1091,SC2154 --source-path=$HOME/.config/tuxfetch/init tuxfetch
+          args: --exclude=SC1091,SC2154,SC1090 tuxfetch
