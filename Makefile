@@ -1,3 +1,12 @@
+# SPDX-License-Identifier: MIT
+#
+# init
+#
+# Copyright (C) 2025-present Farhan Kurnia Pratama
+#
+# GitHub     : https://github.com/farhnkrnapratma/tuxfetch
+# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
+#
 .PHONY: all install update uninstall clean-install clean-update clean-uninstall
 
 APP_NAME     ?= tuxfetch

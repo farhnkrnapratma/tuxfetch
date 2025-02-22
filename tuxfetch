@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-
+#
+# SPDX-License-Identifier: MIT
+#
+# tuxfetch
+#
+# Copyright (C) 2025-present Farhan Kurnia Pratama
+#
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
-# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@protonmail.com> <farhnkrnapratma@gmail.com>
-
-# shellcheck disable=SC1091,SC2154
-
+# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
+#
 latest_version="0.2.0-preview"
 release_date="Thursday, February 20, 2025, 06:23 GMT+7"
 release_code="TXF020P20250220T0623000700"
@@ -89,7 +93,7 @@ options=(
   "${C}--uninstall${R}       | ${C}-un${R}       Uninstall Tuxfetch."
   "${C}--clean-uninstall${R} | ${C}-cun${R}      Uninstall Tuxfetch and remove the configuration file."
 )
-maintainer=("Farhan Kurnia Pratama <${C}farhnkrnapratma@protonmail.com${R}> <${C}farhnkrnapratma@gmail.com${R}>")
+maintainer=("Farhan Kurnia Pratama <${C}farhnkrnapratma@gmail.com${R}> <${C}farhnkrnapratma@gmail.com${R}>")
 
 if [ -n "$1" ]; then
   case "$1" in
@@ -144,7 +148,7 @@ tuxfig="$HOME/.config/tuxfetch/init"
 tuxer() {
 cat <<-EOF > "$tuxfig"
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
-# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@protonmail.com> <farhnkrnapratma@gmail.com>
+# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com> <farhnkrnapratma@gmail.com>
 
 tuxify() {
   yield "🐧 Tuxfetch"
@@ -252,7 +256,6 @@ EOF
 }
 
 if [ -f "$tuxfig" ]; then
-  # shellcheck source=$HOME/.config/tuxfetch/init
   source "$tuxfig"
 else
   echo -en "Configuration file not found, generate default configuration? [${C}Y${R}/${C}n${R}] "
@@ -263,7 +266,6 @@ else
       mkdir -p "$HOME/.config/tuxfetch"
       tuxer
       clear
-      # shellcheck source=$HOME/.config/tuxfetch/init
       source "$tuxfig"
       ;;
     N|n)

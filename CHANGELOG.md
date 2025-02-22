@@ -1,3 +1,13 @@
+<!--
+-- SPDX-License-Identifier: MIT
+--
+-- tuxfetch
+--
+-- Copyright (C) 2025-present Farhan Kurnia Pratama
+--
+-- GitHub     : https://github.com/farhnkrnapratma/tuxfetch
+-- Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
+-->
 # Changelog
 
 ## `v0.1.0`

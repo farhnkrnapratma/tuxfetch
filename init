@@ -1,6 +1,16 @@
+# SPDX-License-Identifier: MIT
+#
+# init
+#
+# Copyright (C) 2025-present Farhan Kurnia Pratama
+#
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
-# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@protonmail.com> <farhnkrnapratma@gmail.com>
-
+# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
+#
+# Declare the tuxify() function
+#
+# NOTE: The tuxify() function must be present as the main entry to display all available options.
+# 
 tuxify() {
   yield "🐧 Tuxfetch"
   yield newline

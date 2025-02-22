@@ -1,3 +1,13 @@
+<!--
+-- SPDX-License-Identifier: MIT
+--
+-- tuxfetch
+--
+-- Copyright (C) 2025-present Farhan Kurnia Pratama
+--
+-- GitHub     : https://github.com/farhnkrnapratma/tuxfetch
+-- Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
+-->
 # 🐧 Tuxfetch
 
 A minimalist fetch for Linux created using Bash v5+.
@@ -235,10 +245,6 @@ Read [`CHANGELOG.md`](./CHANGELOG.md) for information about changes or updates c
 
 You can contribute to this project by submitting an issue or pull request in the Tuxfetch GitHub repository. You can also contribute by donating to the maintainer.
 
-## Maintainer
-
-Farhan Kurnia Pratama [`farhnkrnapratma@protonmail.com`](farhnkrnapratma@protonmail.com)
-
 ---
 
-&copy; 2025 Farhan Kurnia Pratama
+&copy; 2025-present Farhan Kurnia Pratama <[farhnkrnapratma@gmail.com](farhnkrnapratma@gmail.com)>
