@@ -12,7 +12,6 @@ Release date: Monday, February 24, 2025, 09:00 GMT+7 (`TXF020P20250220T062300070
 
 - Separate configuration from the main script into separate file.
 - Removed `txos` and `title` from the built-in functions.
-- Added built-in function `txcolors` to display configurable color blocks.
 - Optimized Makefile to give users more flexible choices.
 - Added new flags for the `tuxfetch` command.
 - New documentation of Tuxfetch, read `README.md` for details.

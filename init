@@ -13,8 +13,6 @@ tuxify() {
   yield "󱐋  Power    " tpower
   yield "󱨺  Uptime   " tuptime
   yield newline
-  yield txcolors
-  yield newline
 }
 
 # Tuxfetch Options

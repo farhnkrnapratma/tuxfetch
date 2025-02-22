@@ -8,8 +8,8 @@ A minimalist fetch for Linux created using Bash v5+.
 
 There are two `make` command options for installing Tuxfetch:
 
-1. `install` :: Install Tuxfetch and generate the configuration file.
-2. `clean-install` :: Install Tuxfetch, remove the previous configuration file (if any), and generate the new one.
+1. `install` install Tuxfetch and generate the configuration file.
+2. `clean-install` install Tuxfetch, remove the previous configuration file (if any), and generate the new one.
 
 ### Updating
 
@@ -17,15 +17,15 @@ There are two `make` command options for installing Tuxfetch:
 
 There are two `make` command options for updating Tuxfetch:
 
-1. `update` :: Update Tuxfetch to the newer version.
-2. `clean-update` :: Update Tuxfetch to the newer version, remove the previous configuration file, and generate the new one.
+1. `update` update Tuxfetch to the newer version but keep the configuration file.
+2. `clean-update` update Tuxfetch to the newer version, remove the previous configuration file, and generate the new one.
 
 #### With `tuxfetch` command
 
 If Tuxfetch is already installed, there are two `tuxfetch` command options for updating Tuxfetch:
 
-1. `--update|-up` :: Equivalent to the `make update` command.
-2. `--clean-update|-cup` :: Equivalent to the `make clean-update` command.
+1. `--update | -up` equivalent to `make update` command.
+2. `--clean-update | -cup` equivalent to `make clean-update` command.
 
 ### Uninstalling 
 
@@ -33,15 +33,15 @@ If Tuxfetch is already installed, there are two `tuxfetch` command options for u
 
 There are two `make` command options for uninstalling Tuxfetch:
 
-1. `uninstall` :: Uninstall Tuxfetch.
-2. `clean-uninstall` :: Uninstall Tuxfetch and remove the configuration file.
+1. `uninstall` uninstall Tuxfetch but keep the configuration file.
+2. `clean-uninstall` uninstall Tuxfetch and remove the configuration file.
 
 #### With `tuxfetch` command
 
 If Tuxfetch is already installed, there are two `tuxfetch` command options for uninstalling Tuxfetch:
 
-1. `--uninstall|-un` :: Equivalent to the `make uninstall` command.
-2. `--clean-uninstall|-cun` :: Equivalent to the `make clean-uninstall` command.
+1. `--uninstall | -un` equivalent to `make uninstall` command.
+2. `--clean-uninstall | -cun` equivalent to `make clean-uninstall` command.
 
 ### Why is there a `clean-*` option?
 
@@ -51,11 +51,66 @@ Overall, while all commands perform basic operations such as installing or remov
 
 After installing Tuxfetch, you can customize its behavior by editing the configuration file at `$HOME/.config/tuxfetch/`.
 
-### Built-in Functions
+### About `yield`
 
-Below is a table listing the built-in functions used in the `tuxify()` function along with their descriptions.
+Here is a brief explanation of the valid arguments in the `yield` function.
 
-| Function        | Description                                                                                         |
+**Example:**
+
+```Bash
+# $HOME/.config/tuxfetch/init
+
+tuxify() {
+  yield "🐧 Tuxfetch"
+  yield newline
+  yield "  User     " tuser
+  yield "󰒍  Host     " thost
+  yield "  Distro   " tdistro
+  yield "  Kernel   " tkernel
+  yield "󰥔  Clock    " tclock
+  yield "  Date     " tdate
+  yield "󱐋  Power    " tpower
+  yield "󱨺  Uptime   " tuptime
+  yield newline
+}
+```
+
+**Usage:**
+
+```Bash
+tuxify() {
+  yield [string|option]
+}
+
+# example
+
+tuxify() {
+  yield "Hello, World!"             # ✅
+  yield newline                     # ✅
+  yield                             # 🙅🏻‍♂️
+}
+
+# or
+
+tuxify() {
+  yield [string] [string|option]
+}
+
+# example
+
+tuxify() {
+  yield "Clock     " tclock         # ✅
+  yield "Name      " "Your Name"    # ✅
+  yield tclock "Clock"              # 🙅🏻‍♂️
+  yield thost tuser                 # 🙅🏻‍♂️
+}
+```
+
+### Options
+
+Below is a table listing the built-in options used in the `tuxify()` function along with their descriptions.
+
+| Option          | Description                                                                                         |
 |-----------------|-----------------------------------------------------------------------------------------------------|
 | `newline`       | Inserts a new line into the output.                                                                 |
 | `tuser`         | Retrieves the current user's name.                                                                  |
@@ -67,7 +122,7 @@ Below is a table listing the built-in functions used in the `tuxify()` function 
 | `tpower`        | Retrieves the battery or power status information.                                                  |
 | `tuptime`       | Retrieves the system uptime in a concise or detailed manner based on the configuration.             |
 
-### Configuration Keys
+### Option Keys
 
 Below is a table listing all of keys and its options to configure built-in functions of Tuxfetch.
 
