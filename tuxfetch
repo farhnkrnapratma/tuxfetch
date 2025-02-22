@@ -254,7 +254,7 @@ EOF
 }
 
 if [ -f "$HOME/.config/tuxfetch/init" ]; then
-  # shellcheck source=$HOME/.config/tuxfetch/init
+  # shellcheck disable=SC1091
   source "$HOME/.config/tuxfetch/init"
 else
   echo -en "Configuration file not found, generate default configuration? [${C}Y${R}/${C}n${R}] "
@@ -265,7 +265,7 @@ else
       mkdir -p "$HOME/.config/tuxfetch"
       tuxer
       clear
-      # shellcheck source=$HOME/.config/tuxfetch/init
+      # shellcheck disable=SC1091
       source "$HOME/.config/tuxfetch/init"
       ;;
     N|n)
