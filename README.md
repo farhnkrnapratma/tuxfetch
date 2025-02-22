@@ -55,26 +55,6 @@ After installing Tuxfetch, you can customize its behavior by editing the configu
 
 Here is a brief explanation of the valid arguments in the `yield` function.
 
-**Example:**
-
-```Bash
-# $HOME/.config/tuxfetch/init
-
-tuxify() {
-  yield "🐧 Tuxfetch"
-  yield newline
-  yield "  User     " tuser
-  yield "󰒍  Host     " thost
-  yield "  Distro   " tdistro
-  yield "  Kernel   " tkernel
-  yield "󰥔  Clock    " tclock
-  yield "  Date     " tdate
-  yield "󱐋  Power    " tpower
-  yield "󱨺  Uptime   " tuptime
-  yield newline
-}
-```
-
 **Usage:**
 
 ```Bash
@@ -105,6 +85,8 @@ tuxify() {
   yield thost tuser                 # 🙅🏻‍♂️
 }
 ```
+
+> **Note:** If both `yield` function parameters are options then the first argument will be evaluated as a string or plain text.
 
 ### Options
 
