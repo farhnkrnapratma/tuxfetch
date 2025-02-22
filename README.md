@@ -59,7 +59,7 @@ Overall, while all commands perform basic operations such as installing or remov
 
 ## Configuring Tuxfetch
 
-After installing Tuxfetch, you can customize its behavior by editing the configuration file at `$HOME/.config/tuxfetch/`.
+After installing Tuxfetch, you can customize its behavior by editing the configuration file at `~/.config/tuxfetch/`.
 
 ### About `yield`
 

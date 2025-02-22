@@ -33,11 +33,11 @@ tuxman() {
         case "$update_option" in
           Y|y)
             echo "Updating Tuxfetch..."
-            git clone "$github_url".git "$HOME/tuxfetch"
-            cd "$HOME/tuxfetch" || exit
+            git clone "$github_url".git "~/tuxfetch"
+            cd "~/tuxfetch" || exit
             make "$1"
-            cd "$HOME" || exit
-            rm -rf "$HOME/tuxfetch"
+            cd "~" || exit
+            rm -rf "~/tuxfetch"
             echo "Successfully updated Tuxfetch."
             ;;
           N|n)
@@ -64,7 +64,7 @@ tuxman() {
               sudo rm -rf "/usr/bin/tuxfetch"
               ;;
             clean-uninstall)
-              rm -rf "$HOME/.config/tuxfetch"
+              rm -rf "~/.config/tuxfetch"
               sudo rm -rf "/usr/bin/tuxfetch"
               ;;
           esac
@@ -144,7 +144,7 @@ if [ -n "$1" ]; then
 fi
 
 tuxer() {
-cat <<-EOF > $HOME/.config/tuxfetch/init
+cat <<-EOF > "~/.config/tuxfetch/init"
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
 # Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com> <farhnkrnapratma@gmail.com>
 
@@ -253,18 +253,18 @@ uptimecl="10"
 EOF
 }
 
-if [ -f $HOME/.config/tuxfetch/init ]; then
-  source $HOME/.config/tuxfetch/init
+if [ -f "~/.config/tuxfetch/init" ]; then
+  source "~/.config/tuxfetch/init"
 else
   echo -en "Configuration file not found, generate default configuration? [${C}Y${R}/${C}n${R}] "
   read -r tuxfig_option
   tuxfig_option=${tuxfig_option:-Y}
   case "$tuxfig_option" in
     Y|y)
-      mkdir -p $HOME/.config/tuxfetch
+      mkdir -p "~/.config/tuxfetch"
       tuxer
       clear
-      source $HOME/.config/tuxfetch/init
+      source "~/.config/tuxfetch/init"
       ;;
     N|n)
       echo "Aborted."
