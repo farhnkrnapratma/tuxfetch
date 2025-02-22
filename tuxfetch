@@ -256,6 +256,7 @@ EOF
 }
 
 if [ -f "$tuxfig" ]; then
+  # shellcheck source=$HOME/.config/tuxfetch/init
   source "$tuxfig"
 else
   echo -en "Configuration file not found, generate default configuration? [${C}Y${R}/${C}n${R}] "
@@ -266,6 +267,7 @@ else
       mkdir -p "$HOME/.config/tuxfetch"
       tuxer
       clear
+      # shellcheck source=$HOME/.config/tuxfetch/init
       source "$tuxfig"
       ;;
     N|n)
