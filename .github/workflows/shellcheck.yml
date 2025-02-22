@@ -29,5 +29,5 @@ jobs:
       - name: Lint using ShellCheck
         uses: ludeeus/action-shellcheck@master
         with:
-          ignore_path: SC1091,SC2154,SC1090
+          ignore_paths: SC1091,SC2154,SC1090
           additional_files: tuxfetch
