@@ -3,7 +3,7 @@
 --
 -- tuxfetch
 --
--- Copyright (C) 2025-present Farhan Kurnia Pratama
+-- Copyright (C) 2025 Farhan Kurnia Pratama
 --
 -- GitHub     : https://github.com/farhnkrnapratma/tuxfetch
 -- Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
@@ -14,120 +14,118 @@ A minimalist fetch for Linux created using Bash v5+.
 
 ## Managing Tuxfetch
 
-### Installing
+### Clone the Repository
 
-There are two `make` command options for installing Tuxfetch:
+```bash
+git clone https://github.com/farhnkrnapratma/tuxfetch.git
+```
 
-1. `install` install Tuxfetch and generate the configuration file.
-2. `clean-install` install Tuxfetch, remove the previous configuration file (if any), and generate the new one.
+### Navigate to the Directory
+
+```bash
+cd path/to/tuxfetch
+```
+
+### Installation
+
+```Bash
+make install                # install Tuxfetch and generate the default configuration file
+```
 
 ### Updating
 
-#### With `make` command
+```Bash
+make update                 # update Tuxfetch to the latest version (preserves existing configurations)
+                            # or
+make clean-update           # update Tuxfetch and regenerate the configuration file (resets to default settings)
+```
 
-There are two `make` command options for updating Tuxfetch:
+### Uninstallation
 
-1. `update` update Tuxfetch to the newer version but keep the configuration file.
-2. `clean-update` update Tuxfetch to the newer version, remove the previous configuration file, and generate the new one.
+```Bash
+make uninstall              # remove Tuxfetch (preserves configuration files)
+                            # or
+make clean-uninstall        # remove Tuxfetch and delete all associated configuration files
+```
 
-#### With `tuxfetch` command
+### Post Installation
 
-If Tuxfetch is already installed, there are two `tuxfetch` command options for updating Tuxfetch:
-
-1. `--update | -up` equivalent to `make update` command.
-2. `--clean-update | -cup` equivalent to `make clean-update` command.
-
-### Uninstalling 
-
-#### With `make` command
-
-There are two `make` command options for uninstalling Tuxfetch:
-
-1. `uninstall` uninstall Tuxfetch but keep the configuration file.
-2. `clean-uninstall` uninstall Tuxfetch and remove the configuration file.
-
-#### With `tuxfetch` command
-
-If Tuxfetch is already installed, there are two `tuxfetch` command options for uninstalling Tuxfetch:
-
-1. `--uninstall | -un` equivalent to `make uninstall` command.
-2. `--clean-uninstall | -cun` equivalent to `make clean-uninstall` command.
-
-### Why is there a `clean-*` option?
-
-Overall, while all commands perform basic operations such as installing or removing Tuxfetch script, the `clean-*` prefixed options provide additional steps to manage configuration files. This is useful for adapting the action to the situation at hand: whether you want to keep the existing configuration or start with a clean slate.
+```Bash
+tuxfetch --update           # equivalent to make update command
+tuxfetch --clean-update     # equivalent to make clean-update command
+tuxfetch --uninstall        # equivalent to make uninstall command
+tuxfetch --clean-uninstall  # equivalent to make clean-uninstall command
+```
 
 ## Configuring Tuxfetch
 
-After installing Tuxfetch, you can customize its behavior by editing the configuration file at `$HOME/.config/tuxfetch/`.
+You can edit the configuration at `$HOME/.config/tuxfetch/init`.
 
-### About `yield`
+### About `tuxify` Function
 
-Here is a brief explanation of the valid arguments in the `yield` function.
+The `tuxify` function serves as the primary entry point for processing and displaying output generated within it, such as output from the `yield` function. Since `tuxify` is a Bash function, you can freely customize its output behavior according to your needs. Ensure that any modifications you make adhere to valid Bash syntax rules.
+
+### About `yield` Function
+
+The `yield` function controls how information is displayed in Tuxfetch and it accepts one or two arguments.
 
 **Usage:**
 
 ```Bash
-tuxify() {
-  yield [string|option]
-}
-
-# example
-
-tuxify() {
-  yield "Hello, World!"             # ✅
-  yield newline                     # ✅
-  yield                             # 🙅🏻‍♂️
-}
-
-# or
-
-tuxify() {
-  yield [string] [string|option]
-}
-
-# example
-
-tuxify() {
-  yield "Clock     " tclock         # ✅
-  yield "Name      " "Your Name"    # ✅
-  yield tclock "Clock"              # 🙅🏻‍♂️
-  yield thost tuser                 # 🙅🏻‍♂️
+tuxify()
+{
+  yield [string|option]             # one argument
+                                    # or
+  yield [string] [string|option]    # two arguments
 }
 ```
+**Valid Examples:**
 
-> **Note:** If both `yield` function parameters are options then the first argument will be evaluated as a string or plain text.
+```Bash
+tuxify()
+{
+  yield "Hello, World!"
+  yield newline
+  yield tclock
+  yield "Clock   " tclock
+  yield "Name    " "Joe"
+}
+```
+**Important Notes:**
+- If both arguments are options (e.g., `yield thost tuser`), the first is treated as plain text, which may not behave as expected.
+- Use options like `tclock`, `tuser`, etc., only as the second argument in the two-argument form to resolve their values dynamically.
+- The `yield` function must be called inside the `tuxify` function.
 
 ### Options
 
-Below is a table listing the built-in options used in the `tuxify()` function along with their descriptions.
+Below is a table listing the built-in options used in the `yield` function along with their descriptions.
 
 | Option          | Description                                                                                         |
 |-----------------|-----------------------------------------------------------------------------------------------------|
-| `newline`       | Inserts a new line into the output.                                                                 |
-| `tuser`         | Retrieves the current user's name.                                                                  |
-| `thost`         | Retrieves the system's hostname.                                                                    |
-| `tdistro`       | Retrieves the Linux distribution name.                                                              |
-| `tkernel`       | Retrieves the kernel version and related details.                                                   |
-| `tclock`        | Retrieves the current time based on the configured clock format.                                    |
-| `tdate`         | Retrieves the current date according to the chosen date format.                                     |
-| `tpower`        | Retrieves the battery or power status information.                                                  |
-| `tuptime`       | Retrieves the system uptime in a concise or detailed manner based on the configuration.             |
+| `newline`       | Inserts a new line into the output                                                                  |
+| `tuser`         | Retrieves the current user's name                                                                   |
+| `thost`         | Retrieves the system's hostname                                                                     |
+| `tdistro`       | Retrieves the Linux distribution name                                                               |
+| `tkernel`       | Retrieves the kernel version and related details                                                    |
+| `tclock`        | Retrieves the current time based on the configured clock format                                     |
+| `tdate`         | Retrieves the current date according to the chosen date format                                      |
+| `tpower`        | Retrieves the battery or power status information                                                   |
+| `tuptime`       | Retrieves the system uptime                                                                         |
 
 ### Option Keys
 
-Below is a table listing all of keys and its options to configure built-in functions of Tuxfetch.
+Below is a table listing all of keys and its options to configure built-in options.
 
 | Key           | Description                              | Options                                                                                                                                                      | Default Value     |
 |---------------|------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
-| `host`        | Hostname display format.                 | `"full"`, `"short"`                                                                                                                                          | `"short"`         |
-| `distro`      | Linux distribution name format.          | `"short"`, `"full"`                                                                                                                                          | `"full"`          |
-| `kernel`      | Kernel information format.               | `"no_arch"`, `"no_version"`, `"short"`, `"full"`                                                                                                             | `"full"`          |
-| `clock`       | Time display format.                     | `"h24_full"`, `"h12_full"`, `"h24_no_second"`, `"h12_no_second"`, `"h24_no_tz"`, `"h12_no_tz"`, `"h24_short"`, `"h12_short"`, `"<custom>"`                   | `"h24_full"`      |
-| `date`        | Date display format.                     | `"long"`, `"short"`, `"long_short"`, `"long_no_day"`, `"long_nd_short"`, `"short_year"`, `"<custom>"`                                                        | `"long"`          |
-| `power`       | Power/battery status display.            | `"full"`, `"hide_type"`, `"hide_plugged"`, `"hide_unplugged"`, `"no_status"`                                                                                 | `"full"`          |
-| `uptime`      | System uptime format.                    | `"full"`, `"no_second"`, `"tiny"`, `"tiny_no_second"`                                                                                                        | `"tiny_no_second"` |
-| `separator`   | Separator between elements.              | `"hide"`, `"<separator>"`                                                                                                                                    | `":"`             |
+| `host`        | Hostname display format                  | `"full"`, `"short"`                                                                                                                                          | `"short"`         |
+| `distro`      | Linux distro name format                 | `"short"`, `"full"`                                                                                                                                          | `"full"`          |
+| `kernel`      | Kernel information format                | `"no_arch"`, `"no_version"`, `"short"`, `"full"`                                                                                                             | `"full"`          |
+| `clock`       | Time display format                      | `"h24_full"`, `"h12_full"`, `"h24_no_second"`, `"h12_no_second"`, `"h24_no_tz"`, `"h12_no_tz"`, `"h24_short"`, `"h12_short"`, `"<custom>"`                   | `"h24_full"`      |
+| `date`        | Date display format                      | `"long"`, `"short"`, `"long_short"`, `"long_no_day"`, `"long_nd_short"`, `"short_year"`, `"<custom>"`                                                        | `"long"`          |
+| `power`       | Power/battery status display             | `"full"`, `"hide_type"`, `"hide_plugged"`, `"hide_unplugged"`, `"no_status"`                                                                                 | `"full"`          |
+| `uptime`      | System uptime format                     | `"full"`, `"no_second"`, `"tiny"`, `"tiny_no_second"`                                                                                                        | `"tiny_no_second"` |
+| `separator`   | Separator between label and content      | `"hide"`, `"<separator>"`                                                                                                                                    | `":"`             |
 
 ### Date and Time Custom Format
 
@@ -225,26 +223,26 @@ Below is a table listing the coloring options.
 
 | Key           | Description                              | Options             | Default Value |
 |---------------|------------------------------------------|---------------------|---------------|
-| `globalcl`    | Global color for all output.             | `"no"`, `0–13`      | `"no"`        |
-| `textcl`      | Color for text.                          | `0–13`              | `"5"`         |
-| `separatorcl` | Color for the separator between elements.| `0–13`              | `"13"`        |
-| `usercl`      | Color for the username display.          | `0–13`              | `"3"`         |
-| `hostcl`      | Color for the hostname display.          | `0–13`              | `"4"`         |
-| `distrocl`    | Color for the distribution name.         | `0–13`              | `"0"`         |
-| `kernelcl`    | Color for the kernel version.            | `0–13`              | `"1"`         |
-| `clockcl`     | Color for the time display.              | `0–13`              | `"1"`         |
-| `datecl`      | Color for the date display.              | `0–13`              | `"2"`         |
-| `batterycl`   | Color for the battery/power status.      | `0–13`              | `"5"`         |
-| `uptimecl`    | Color for the uptime display.            | `0–13`              | `"10"`        |
+| `globalcl`    | Global color for all output              | `"no"`, `0–13`      | `"no"`        |
+| `textcl`      | Color for plain text                     | `0–13`              | `"5"`         |
+| `separatorcl` | Color for the separator                  | `0–13`              | `"13"`        |
+| `usercl`      | Color for the username                   | `0–13`              | `"3"`         |
+| `hostcl`      | Color for the hostname                   | `0–13`              | `"4"`         |
+| `distrocl`    | Color for the distro name                | `0–13`              | `"0"`         |
+| `kernelcl`    | Color for the kernel                     | `0–13`              | `"1"`         |
+| `clockcl`     | Color for the time                       | `0–13`              | `"1"`         |
+| `datecl`      | Color for the date                       | `0–13`              | `"2"`         |
+| `batterycl`   | Color for the battery/power status       | `0–13`              | `"5"`         |
+| `uptimecl`    | Color for the uptime                     | `0–13`              | `"10"`        |
 
 ## Changelog
 
-Read [`CHANGELOG.md`](./CHANGELOG.md) for information about changes or updates contained in the latest version.
+For a detailed list of updates, fixes, and new features, refer to the [`CHANGELOG.md`](./CHANGELOG.md) file.
 
 ## Contributing
 
-You can contribute to this project by submitting an issue or pull request in the Tuxfetch GitHub repository. You can also contribute by donating to the maintainer.
+You can contribute to the project by submitting GitHub issues/pull requests or donating to support the maintainer!
 
 ---
 
-&copy; 2025-present Farhan Kurnia Pratama <[farhnkrnapratma@gmail.com](farhnkrnapratma@gmail.com)>
+&copy; 2025 Farhan Kurnia Pratama

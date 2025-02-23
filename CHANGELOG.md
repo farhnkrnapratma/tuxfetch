@@ -3,7 +3,7 @@
 --
 -- tuxfetch
 --
--- Copyright (C) 2025-present Farhan Kurnia Pratama
+-- Copyright (C) 2025 Farhan Kurnia Pratama
 --
 -- GitHub     : https://github.com/farhnkrnapratma/tuxfetch
 -- Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
@@ -20,7 +20,6 @@ Release date: Monday, February 17, 2025, 21:00 GMT+7 (`TXF010S20250212T210000070
 
 Release date: Monday, February 24, 2025, 09:00 GMT+7 (`TXF020P20250220T0623000700`)
 
-- Separate configuration from the main script into separate file.
 - Removed `txos` and `title` from the built-in functions.
 - Optimized Makefile to give users more flexible choices.
 - Added new flags for the `tuxfetch` command.

@@ -7,7 +7,7 @@
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
 # Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
 #
-.PHONY: all install update uninstall clean-install clean-update clean-uninstall
+.PHONY: all install update uninstall clean-update clean-uninstall
 
 APP_NAME     ?= tuxfetch
 APP_CONFIG   ?= init
@@ -55,7 +55,4 @@ clean-uninstall: _clean_uninstall
 	@echo "Done"
 
 clean-update: _clean_update_install
-	@echo "Done"
-
-clean-install: _clean_update_install
 	@echo "Done"

@@ -4,7 +4,7 @@
 #
 # tuxfetch
 #
-# Copyright (C) 2025-present Farhan Kurnia Pratama
+# Copyright (C) 2025 Farhan Kurnia Pratama
 #
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
 # Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
@@ -149,9 +149,15 @@ fi
 
 tuxer() {
 cat <<-EOF > "$HOME/.config/tuxfetch/init"
+# SPDX-License-Identifier: MIT
+#
+# init
+#
+# Copyright (C) 2025 Farhan Kurnia Pratama
+#
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
-# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com> <farhnkrnapratma@gmail.com>
-
+# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
+#
 tuxify() {
   yield "🐧 Tuxfetch"
   yield newline
@@ -722,4 +728,8 @@ yield() {
   fi
 }
 
-tuxify
+if declare -F tuxify > /dev/null; then
+  tuxify
+else
+  echo "Error: '${C}tuxify${R}' function not found."
+fi
