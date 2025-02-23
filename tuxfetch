@@ -23,10 +23,14 @@ tuxman() {
 
   case "$1" in
     update|clean-update)
-      if [[ "$check_version" != "v$latest_version" ]]; then
-        echo -e "A new version of Tuxfetch (${C}$check_version${R}) is now available on GitHub."
+      stripped_check_version="${check_version#v}"
+      IFS=. read -r check_major check_minor _ <<< "$stripped_check_version"
+      IFS=. read -r current_major current_minor _ <<< "$latest_version"
 
-        echo -en "Would you like to ${C}$1${R} now? [${C}Y${R}/${C}n${R}] "
+      if (( check_major > current_major )) || (( check_major == current_major && check_minor > current_minor )); then
+        echo -e "New Tuxfetch version (${C}$check_version${R}) is available on GitHub."
+        
+        echo -en "Perform ${C}$1${R} now? [${C}Y${R}/${C}n${R}] "
         read -r update_option
         update_option=${update_option:-Y}
 
@@ -38,7 +42,7 @@ tuxman() {
             make "$1"
             cd "$HOME" || exit
             rm -rf "$HOME/tuxfetch"
-            echo "Successfully updated Tuxfetch."
+            echo "Tuxfetch updated successfully."
             ;;
           N|n)
             echo "Update canceled."
@@ -48,11 +52,11 @@ tuxman() {
             ;;
         esac
       else
-        echo -e "Tuxfetch (${C}v$latest_version${R}) is already up-to-date."
+        echo -e "Tuxfetch (${C}v$latest_version${R}) is already the latest version."
       fi
       ;;
     uninstall|clean-uninstall)
-      echo -en "Would you like to ${C}$1${R} Tuxfetch? [${C}Y${R}/${C}n${R}] "
+      echo -en "Confirm ${C}$1${R} of Tuxfetch? [${C}Y${R}/${C}n${R}] "
       read -r uninstall_option
       uninstall_option=${uninstall_option:-Y}
 
@@ -68,7 +72,7 @@ tuxman() {
               sudo rm -rf "/usr/bin/tuxfetch"
               ;;
           esac
-          echo "Successfully uninstalled Tuxfetch."
+          echo "Tuxfetch uninstalled successfully."
           ;;
         N|n)
           echo "Uninstall canceled."
