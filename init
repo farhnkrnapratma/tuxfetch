@@ -8,16 +8,16 @@
 # Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
 # 
 tuxify() {
-  yield "🐧 Tuxfetch"
+  yield "Tuxfetch"
   yield newline
-  yield "  User     " tuser
-  yield "󰒍  Host     " thost
-  yield "  Distro   " tdistro
-  yield "  Kernel   " tkernel
-  yield "󰥔  Clock    " tclock
-  yield "  Date     " tdate
-  yield "󱐋  Power    " tpower
-  yield "󱨺  Uptime   " tuptime
+  yield "User     " tuser
+  yield "Host     " thost
+  yield "Distro   " tdistro
+  yield "Kernel   " tkernel
+  yield "Clock    " tclock
+  yield "Date     " tdate
+  yield "Power    " tpower
+  yield "Uptime   " tuptime
   yield newline
 }
 

@@ -77,19 +77,6 @@ You can edit the configuration at `$HOME/.config/tuxfetch/init`.
 
 The `tuxify` function serves as the primary entry point for processing and displaying output generated within it, such as output from the `yield` function. Since `tuxify` is a Bash function, you can freely customize its output behavior according to your needs. Ensure that any modifications you make adhere to valid Bash syntax rules.
 
-**Usage:**
-
-```Bash
-# at $HOME/.config/tuxfetch/init
-
-tuxify()
-{
-  # yield or whatever
-}
-
-# other...
-```
-
 ### `yield` Function
 
 The `yield` function is a built-in function of Tuxfetch that is used to return or display output similar to `echo` by having to accept at least one argument and at most two arguments. The first argument can accept a string or function such as `tuser`, `thost`, etc. If `yield` is given two arguments then the first argument must be a string used as a label and will automatically include a `separator` between the output of the first and second arguments, while the second argument can be a string or function such as `tuser`, `thost`, etc.
