@@ -17,66 +17,77 @@ A minimalist fetch for Linux created using Bash v5+.
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/farhnkrnapratma/tuxfetch.git
+$ git clone https://github.com/farhnkrnapratma/tuxfetch.git
 ```
 
 ### Navigate to the Directory
 
 ```bash
-cd path/to/tuxfetch
+$ cd path/to/tuxfetch
 ```
 
 ### Installation
 
 ```Bash
-make install                # install Tuxfetch and generate the default configuration file
+$ make install                # install Tuxfetch and generate the default configuration file
 ```
 
 ### Updating
 
 ```Bash
-make update                 # update Tuxfetch to the latest version (preserves existing configurations)
-                            # or
-make clean-update           # update Tuxfetch and regenerate the configuration file (resets to default settings)
+$ make update                 # update Tuxfetch to the latest version (preserves existing configurations)
+                              # or
+$ make clean-update           # update Tuxfetch and regenerate the configuration file (resets to default settings)
 ```
 
 ### Uninstallation
 
 ```Bash
-make uninstall              # remove Tuxfetch (preserves configuration files)
-                            # or
-make clean-uninstall        # remove Tuxfetch and delete all associated configuration files
+$ make uninstall              # remove Tuxfetch (preserves configuration files)
+                              # or
+$ make clean-uninstall        # remove Tuxfetch and delete all associated configuration files
 ```
 
 ### Post Installation
 
 ```Bash
-tuxfetch --update           # equivalent to make update command
-tuxfetch --clean-update     # equivalent to make clean-update command
-tuxfetch --uninstall        # equivalent to make uninstall command
-tuxfetch --clean-uninstall  # equivalent to make clean-uninstall command
+$ tuxfetch --update           # equivalent to make update command
+$ tuxfetch --clean-update     # equivalent to make clean-update command
+$ tuxfetch --uninstall        # equivalent to make uninstall command
+$ tuxfetch --clean-uninstall  # equivalent to make clean-uninstall command
 ```
 
 ## Configuring Tuxfetch
 
 You can edit the configuration at `$HOME/.config/tuxfetch/init`.
 
-### About `tuxify` Function
+### `tuxify` Function
 
 The `tuxify` function serves as the primary entry point for processing and displaying output generated within it, such as output from the `yield` function. Since `tuxify` is a Bash function, you can freely customize its output behavior according to your needs. Ensure that any modifications you make adhere to valid Bash syntax rules.
-
-### About `yield` Function
-
-The `yield` function controls how information is displayed in Tuxfetch and it accepts one or two arguments.
 
 **Usage:**
 
 ```Bash
 tuxify()
 {
-  yield [string|option]             # one argument
+  # yield or whatever
+}
+
+# Other...
+```
+
+### `yield` Function
+
+The `yield` function is a built-in function of Tuxfetch that is used to return or display output similar to `echo` by having to accept at least one argument and at most two arguments. The first argument can accept a string or function such as `tuser`, `thost`, etc. If `yield` is given two arguments then the first argument must be a string used as a label and will automatically include a `separator` between the output of the first and second arguments, while the second argument can be a string or function such as `tuser`, `thost`, etc.
+
+**Usage:**
+
+```Bash
+tuxify()
+{
+  yield [string|function]             # one argument
                                     # or
-  yield [string] [string|option]    # two arguments
+  yield [string] [string|function]    # two arguments
 }
 ```
 **Valid Examples:**
@@ -92,15 +103,15 @@ tuxify()
 }
 ```
 **Important Notes:**
-- If both arguments are options (e.g., `yield thost tuser`), the first is treated as plain text, which may not behave as expected.
-- Use options like `tclock`, `tuser`, etc., only as the second argument in the two-argument form to resolve their values dynamically.
+- If both arguments are functions (e.g., `yield thost tuser`), the first is treated as plain text, which may not behave as expected.
+- Use functions like `tclock`, `tuser`, etc., only as the second argument in the two-argument form to resolve their values dynamically.
 - The `yield` function must be called inside the `tuxify` function.
 
-### Options
+### Built-in Functions
 
-Below is a table listing the built-in options used in the `yield` function along with their descriptions.
+Below is a table listing the built-in functions used as argument in the `yield` function along with their descriptions.
 
-| Option          | Description                                                                                         |
+| Function        | Description                                                                                         |
 |-----------------|-----------------------------------------------------------------------------------------------------|
 | `newline`       | Inserts a new line into the output                                                                  |
 | `tuser`         | Retrieves the current user's name                                                                   |
@@ -114,7 +125,7 @@ Below is a table listing the built-in options used in the `yield` function along
 
 ### Option Keys
 
-Below is a table listing all of keys and its options to configure built-in options.
+Below is a table listing all of keys and its options to configure built-in functions.
 
 | Key           | Description                              | Options                                                                                                                                                      | Default Value     |
 |---------------|------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
@@ -224,7 +235,7 @@ Below is a table listing the coloring options.
 | Key           | Description                              | Options             | Default Value |
 |---------------|------------------------------------------|---------------------|---------------|
 | `globalcl`    | Global color for all output              | `"no"`, `0–13`      | `"no"`        |
-| `textcl`      | Color for plain text                     | `0–13`              | `"5"`         |
+| `textcl`      | Color for text                           | `0–13`              | `"5"`         |
 | `separatorcl` | Color for the separator                  | `0–13`              | `"13"`        |
 | `usercl`      | Color for the username                   | `0–13`              | `"3"`         |
 | `hostcl`      | Color for the hostname                   | `0–13`              | `"4"`         |
