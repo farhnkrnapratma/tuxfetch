@@ -17,24 +17,32 @@ A minimalist fetch for Linux created using Bash v5+.
 ### Clone the Repository
 
 ```bash
+# at terminal
+
 $ git clone https://github.com/farhnkrnapratma/tuxfetch.git
 ```
 
 ### Navigate to the Directory
 
 ```bash
+# at terminal
+
 $ cd path/to/tuxfetch
 ```
 
 ### Installation
 
 ```Bash
+# at path/to/tuxfetch
+
 $ make install                # install Tuxfetch and generate the default configuration file
 ```
 
 ### Updating
 
 ```Bash
+# at path/to/tuxfetch
+
 $ make update                 # update Tuxfetch to the latest version (preserves existing configurations)
                               # or
 $ make clean-update           # update Tuxfetch and regenerate the configuration file (resets to default settings)
@@ -43,6 +51,8 @@ $ make clean-update           # update Tuxfetch and regenerate the configuration
 ### Uninstallation
 
 ```Bash
+# at path/to/tuxfetch
+
 $ make uninstall              # remove Tuxfetch (preserves configuration files)
                               # or
 $ make clean-uninstall        # remove Tuxfetch and delete all associated configuration files
@@ -51,6 +61,8 @@ $ make clean-uninstall        # remove Tuxfetch and delete all associated config
 ### Post Installation
 
 ```Bash
+# at terminal
+
 $ tuxfetch --update           # equivalent to make update command
 $ tuxfetch --clean-update     # equivalent to make clean-update command
 $ tuxfetch --uninstall        # equivalent to make uninstall command
@@ -68,12 +80,14 @@ The `tuxify` function serves as the primary entry point for processing and displ
 **Usage:**
 
 ```Bash
+# at $HOME/.config/tuxfetch/init
+
 tuxify()
 {
   # yield or whatever
 }
 
-# Other...
+# other...
 ```
 
 ### `yield` Function
@@ -83,16 +97,20 @@ The `yield` function is a built-in function of Tuxfetch that is used to return o
 **Usage:**
 
 ```Bash
+# at $HOME/.config/tuxfetch/init
+
 tuxify()
 {
   yield [string|function]             # one argument
-                                    # or
+                                      # or
   yield [string] [string|function]    # two arguments
 }
 ```
 **Valid Examples:**
 
 ```Bash
+# at $HOME/.config/tuxfetch/init
+
 tuxify()
 {
   yield "Hello, World!"
@@ -198,10 +216,14 @@ Below are two tables listing the available `date` command options. You can use t
 #### Examples
 
 ```Bash
+# at $HOME/.config/tuxfetch/init
+
 clock="%H:%M:%S"       # Expected output: 14:30:15
 ```
 
 ```Bash
+# at $HOME/.config/tuxfetch/init
+
 date="%m/%d/%Y"        # Expected output: 02/19/2025
 ```
 
