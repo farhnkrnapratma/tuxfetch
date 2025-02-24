@@ -9,9 +9,9 @@
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
 # Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
 #
-latest_version="0.2.0-preview"
-release_date="Thursday, February 20, 2025, 06:23 GMT+7"
-release_code="TXF020P20250220T0623000700"
+latest_version="0.2.0"
+release_date="Thursday, February 24, 2025, 10:20 GMT+7"
+release_code="TXF020P20250224T102000700"
 license="MIT License"
 github_url="https://github.com/farhnkrnapratma/tuxfetch"
 
