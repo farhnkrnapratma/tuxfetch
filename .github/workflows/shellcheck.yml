@@ -1,17 +1,24 @@
+# SPDX-License-Identifier: MIT
+#
+# tuxfetch
+#
+# Copyright (C) 2025 Farhan Kurnia Pratama
+#
+# GitHub     : https://github.com/farhnkrnapratma/tuxfetch
+# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
+#
 name: Tuxfetch CI
 
 on:
   push:
     branches:
       - main
-    paths:
-      - tuxfetch
+      - dev
       
   pull_request:
     branches:
       - main
-    paths:
-      - tuxfetch
+      - dev
       
 jobs:
   lint-and-test:
@@ -21,3 +28,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Lint using ShellCheck
         uses: ludeeus/action-shellcheck@master
+        with:
+          ignore_paths: SC1091,SC2154
+          additional_files: tuxfetch

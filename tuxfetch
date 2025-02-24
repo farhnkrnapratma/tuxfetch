@@ -1,68 +1,178 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1091,SC2154
+#
+# SPDX-License-Identifier: MIT
+#
+# tuxfetch
+#
+# Copyright (C) 2025 Farhan Kurnia Pratama
+#
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
-# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@protonmail.com>
+# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
+#
+latest_version="0.2.0"
+release_date="Thursday, February 24, 2025, 10:20 GMT+7"
+release_code="TXF020P20250224T102000700"
+license="MIT License"
+github_url="https://github.com/farhnkrnapratma/tuxfetch"
+
+C="\e[1;36m"
+R="\e[0m"
+
+tuxman() {
+  check_version=$(git ls-remote --tags "$github_url".git | sed -n 's?.*refs/tags/??p' | sed 's/\^{}//' | sort -V | tail -n 1)
+
+  case "$1" in
+    update|clean-update)
+      stripped_check_version="${check_version#v}"
+      IFS=. read -r check_major check_minor _ <<< "$stripped_check_version"
+      IFS=. read -r current_major current_minor _ <<< "$latest_version"
+
+      if (( check_major > current_major )) || (( check_major == current_major && check_minor > current_minor )); then
+        echo -e "New Tuxfetch version (${C}$check_version${R}) is available on GitHub."
+        
+        echo -en "Perform ${C}$1${R} now? [${C}Y${R}/${C}n${R}] "
+        read -r update_option
+        update_option=${update_option:-Y}
+
+        case "$update_option" in
+          Y|y)
+            echo "Updating Tuxfetch..."
+            git clone "$github_url".git "$HOME/tuxfetch"
+            cd "$HOME/tuxfetch" || exit
+            make "$1"
+            cd "$HOME" || exit
+            rm -rf "$HOME/tuxfetch"
+            echo "Tuxfetch updated successfully."
+            ;;
+          N|n)
+            echo "Update canceled."
+            ;;
+          *)
+            echo "Invalid option: '${C}$update_option${R}'. Aborted."
+            ;;
+        esac
+      else
+        echo -e "Tuxfetch (${C}v$latest_version${R}) is already the latest version."
+      fi
+      ;;
+    uninstall|clean-uninstall)
+      echo -en "Confirm ${C}$1${R} of Tuxfetch? [${C}Y${R}/${C}n${R}] "
+      read -r uninstall_option
+      uninstall_option=${uninstall_option:-Y}
+
+      case "$uninstall_option" in
+        Y|y)
+          echo "Uninstalling Tuxfetch..."
+          case "$1" in
+            uninstall)
+              sudo rm -rf "/usr/bin/tuxfetch"
+              ;;
+            clean-uninstall)
+              rm -rf "$HOME/.config/tuxfetch"
+              sudo rm -rf "/usr/bin/tuxfetch"
+              ;;
+          esac
+          echo "Tuxfetch uninstalled successfully."
+          ;;
+        N|n)
+          echo "Uninstall canceled."
+          ;;
+        *)
+          echo "Invalid option: '${C}$uninstall_option${R}'. Aborted."
+          ;;
+      esac
+      ;;
+    *)
+      echo "Invalid argument: '${C}$1${R}'. Aborted."
+      ;;
+  esac
+}
+
+options=(
+  "${C}--help${R}            | ${C}-h${R}        Print this help."
+  "${C}--version${R}         | ${C}-v${R}        Print the Tuxfetch current version."
+  "${C}--mailmap${R}         | ${C}-mm${R}       Print the name and email of the maintainer."
+  "${C}--update${R}          | ${C}-up${R}       Update Tuxfetch to the latest version."
+  "${C}--clean-update${R}    | ${C}-cup${R}      Update Tuxfetch to the latest version and regenerate the configuration file."
+  "${C}--uninstall${R}       | ${C}-un${R}       Uninstall Tuxfetch."
+  "${C}--clean-uninstall${R} | ${C}-cun${R}      Uninstall Tuxfetch and remove the configuration file."
+)
+maintainer=("Farhan Kurnia Pratama <${C}farhnkrnapratma@gmail.com${R}> <${C}farhnkrnapratma@gmail.com${R}>")
 
 if [ -n "$1" ]; then
   case "$1" in
     --help|-h)
-      echo -e "🐧 Tuxfetch - Help\n"
-      echo -e "Usage: tuxfetch [option]\n"
+      echo -e "Usage: ${C}tuxfetch${R} [${C}--option${R}|${C}-opt${R}]\n"
       echo "Options:"
-      echo -e "\t--help      | -h : Print this help."
-      echo -e "\t--version   | -v : Print the Tuxfetch current version."
-      echo -e "\t--mailmap   | -m : Print the mailmap."
-      exit 0
+      for option in "${!options[@]}"; do
+        echo -e "\t${options[$option]}"
+      done
+      exit
       ;;
-    --mailmap|-m)
-      echo -e "🐧 Tuxfetch - Mailmap\n"
-      echo "[1] Farhan Kurnia Pratama <farhnkrnapratma@protonmail.com>"
-      exit 0
+    --mailmap|-mm)
+      for mailmap in "${!maintainer[@]}"; do
+        echo -e "[${C}$((mailmap + 1))${R}] ${maintainer[$mailmap]}"
+      done
+      exit
       ;;
     --version|-v)
-      echo -e "🐧 Tuxfetch - Version\n"
-      echo "Version      : 0.1.0"
-      echo "Release Date : Monday, February 17 2025 11:40 GMT+7"
-      echo "Platform     : GNU/Linux"
-      echo "License      : MIT"
-      echo "GitHub       : https://github.com/farhnkrnapratma/tuxfetch"
-      echo "Maintainer   : Farhan Kurnia Pratama <farhnkrnapratma@protonmail.com>"
-      exit 0
+      echo -e "Version      : ${C}v$latest_version${R}"
+      echo -e "Release Date : ${C}$release_date${R}"
+      echo -e "Release Code : ${C}$release_code${R}"
+      echo -e "License      : ${C}$license${R}"
+      echo -e "GitHub       : ${C}$github_url${R}"
+      exit
+      ;;
+    --update|-up)
+      tuxman update
+      exit
+      ;;
+    --clean-update|-cup)
+      tuxman clean-update
+      exit
+      ;;
+    --uninstall|-un)
+      tuxman uninstall
+      exit
+      ;;
+    --clean-uninstall|-cun)
+      tuxman clean-uninstall
+      exit
       ;;
     *)
-      echo "Invalid argument: '$1'"
-      echo "Type 'tuxfetch --help' or 'tuxfetch -h' for help."
-      exit 1
+      echo -e "Invalid argument: '${C}$1${R}'"
+      echo -e "Type '${C}tuxfetch --help|-h${R}' for help."
+      exit
       ;;
   esac
 fi
 
-tuxfig="$HOME/.config/tuxfetch"
-
 tuxer() {
-  cat <<-'EOF' > "$tuxfig/init"
+cat <<-EOF > "$HOME/.config/tuxfetch/init"
+# SPDX-License-Identifier: MIT
+#
+# init
+#
+# Copyright (C) 2025 Farhan Kurnia Pratama
+#
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
-# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@protonmail.com>
-
+# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
+#
 tuxify() {
-  yield title
+  yield "Tuxfetch"
   yield newline
-  yield "   User     " txuser
-  yield " 󰒍  Host     " txhost
-  yield "   Distro   " txdistro
-  yield "   OS       " txos
-  yield "   Kernel   " txkernel
-  yield " 󰥔  Clock    " txclock
-  yield "   Date     " txdate
-  yield " 󱐋  Power    " txpower
-  yield " 󱨺  Uptime   " txuptime
+  yield "User     " tuser
+  yield "Host     " thost
+  yield "Distro   " tdistro
+  yield "Kernel   " tkernel
+  yield "Clock    " tclock
+  yield "Date     " tdate
+  yield "Power    " tpower
+  yield "Uptime   " tuptime
   yield newline
 }
 
 # Tuxfetch Options
-
-# Tuxtitle
-tuxtitle=" 🐧 Tuxfetch"
 
 # Host
 # Options     : "full", "short"
@@ -108,7 +218,6 @@ separator=":"
 
 # Available Colors
 
-# Standard Colors      # Bright Colors
 # 0  = Red             # 7  = Bright Red
 # 1  = Green           # 8  = Bright Green
 # 2  = Yellow          # 9  = Bright Yellow
@@ -121,9 +230,6 @@ separator=":"
 # Options     : "no", "<color_number>"
 # Default     : "no"
 globalcl="no"
-
-# Tuxtitle Color
-tuxtitlecl="5"
 
 # Text Color
 textcl="5"
@@ -139,9 +245,6 @@ hostcl="4"
 
 # Distro Color
 distrocl="0"
-
-# OS Color
-oscl="2"
 
 # Kernel Color
 kernelcl="1"
@@ -160,24 +263,117 @@ uptimecl="10"
 EOF
 }
 
-if [ ! -e "$tuxfig/init" ]; then
-  mkdir -p "$tuxfig"
-  tuxer
+if [ -f "$HOME/.config/tuxfetch/init" ]; then
+  # shellcheck disable=SC1091
+  source "$HOME/.config/tuxfetch/init"
+else
+  echo -en "Configuration file not found, generate default configuration? [${C}Y${R}/${C}n${R}] "
+  read -r tuxfig_option
+  tuxfig_option=${tuxfig_option:-Y}
+  case "$tuxfig_option" in
+    Y|y)
+      mkdir -p "$HOME/.config/tuxfetch"
+      tuxer
+      clear
+      # shellcheck disable=SC1091
+      source "$HOME/.config/tuxfetch/init"
+      ;;
+    N|n)
+      echo "Aborted."
+      exit
+      ;;
+    *)
+      echo "Invalid option: '${C}$tuxfig_option${R}'. Aborted."
+      exit
+      ;;
+  esac
 fi
 
-source "$tuxfig/init"
+cl=(31 32 33 34 35 36 37 91 92 93 94 95 96 97)
 
-colors=(31 32 33 34 35 36 37 91 92 93 94 95 96 97)
+if [[ -z "$host" ]]; then
+  host="short"
+fi
+
+if [[ -z "$distro" ]]; then
+  distro="full"
+fi
+
+if [[ -z "$kernel" ]]; then
+  kernel="full"
+fi
+
+if [[ -z "$clock" ]]; then
+  clock="h24_full"
+fi
+
+if [[ -z "$date" ]]; then
+  date="long"
+fi
+
+if [[ -z "$power" ]]; then
+  power="full"
+fi
+
+if [[ -z "$uptime" ]]; then
+  uptime="tiny_no_second"
+fi
+
+if [[ -z "$separator" ]]; then
+  separator=":"
+fi
+
+if [[ -z "$globalcl" ]]; then
+  globalcl="no"
+fi
+
+if [[ -z "$textcl" ]]; then
+  textcl="5"
+fi
+
+if [[ -z "$separatorcl" ]]; then
+  separatorcl="13"
+fi
+
+if [[ -z "$usercl" ]]; then
+  usercl="3"
+fi
+
+if [[ -z "$hostcl" ]]; then
+  hostcl="4"
+fi
+
+if [[ -z "$distrocl" ]]; then
+  distrocl="0"
+fi
+
+if [[ -z "$kernelcl" ]]; then
+  kernelcl="1"
+fi
+
+if [[ -z "$clockcl" ]]; then
+  clockcl="1"
+fi
+
+if [[ -z "$datecl" ]]; then
+  datecl="2"
+fi
+
+if [[ -z "$batterycl" ]]; then
+  batterycl="5"
+fi
+
+if [[ -z "$uptimecl" ]]; then
+  uptimecl="10"
+fi
 
 case "$globalcl" in
   [0-9]|1[0-3])
-    tuxtitlecl=$globalcl
     textcl=$globalcl
     separatorcl=$globalcl
     usercl=$globalcl
     hostcl=$globalcl
     distrocl=$globalcl
-    oscl=$globalcl
     kernelcl=$globalcl
     uptimecl=$globalcl
     ;;
@@ -185,11 +381,11 @@ case "$globalcl" in
     ;;
 esac
 
-txuser() {
-  echo -e "\e[${colors[usercl]}m$(whoami)\e[0m"
+tuser() {
+  echo -e "\e[${cl[usercl]}m$(whoami)\e[0m"
 }
 
-txhost() {
+thost() {
   local hostn hostn_fqdn uname_hostn
 
   if command -v hostname >/dev/null 2>&1; then
@@ -201,50 +397,46 @@ txhost() {
   if command -v hostname >/dev/null 2>&1; then
     case "$host" in
       full)
-        echo -e "\e[${colors[hostcl]}m$hostn_fqdn\e[0m"
+        echo -e "\e[${cl[hostcl]}m$hostn_fqdn\e[0m"
         ;;
       short)
-        echo -e "\e[${colors[hostcl]}m$hostn\e[0m"
+        echo -e "\e[${cl[hostcl]}m$hostn\e[0m"
         ;;
       *)
-        echo -e "\e[${colors[hostcl]}m$hostn\e[0m"
+        echo -e "\e[${cl[hostcl]}m$hostn\e[0m"
         ;;
     esac
   else
     case "$host" in
       full|short)
-        echo -e "\e[${colors[hostcl]}m$uname_hostn\e[0m"
+        echo -e "\e[${cl[hostcl]}m$uname_hostn\e[0m"
         ;;
       *)
-        echo -e "\e[${colors[hostcl]}m$uname_hostn\e[0m"
+        echo -e "\e[${cl[hostcl]}m$uname_hostn\e[0m"
         ;;
     esac
   fi
 }
 
-txdistro() {
+tdistro() {
   local name version
   name=$(awk -F= '$1=="NAME" {gsub(/"/, "", $2); print $2}' /etc/os-release)
   version=$(awk -F= '$1=="VERSION" {gsub(/"/, "", $2); print $2}' /etc/os-release)
 
   case "$distro" in
     full)
-      echo -e "\e[${colors[distrocl]}m$name $version\e[0m"
+      echo -e "\e[${cl[distrocl]}m$name $version\e[0m"
       ;;
     short)
-      echo -e "\e[${colors[distrocl]}m$name\e[0m"
+      echo -e "\e[${cl[distrocl]}m$name\e[0m"
       ;;
     *)
-      echo -e "\e[${colors[distrocl]}m$name $version\e[0m"
+      echo -e "\e[${cl[distrocl]}m$name $version\e[0m"
       ;;
   esac
 }
 
-txos() {
-  echo -e "\e[${colors[oscl]}m$(uname -o)\e[0m"
-}
-
-txkernel() {
+tkernel() {
   local kname kvers karch
   kname=$(uname -s)
   kvers=$(uname -r)
@@ -252,64 +444,64 @@ txkernel() {
 
   case "$kernel" in
     full)
-      echo -e "\e[${colors[kernelcl]}m$kname $kvers $karch\e[0m"
+      echo -e "\e[${cl[kernelcl]}m$kname $kvers $karch\e[0m"
       ;;
     no_arch)
-      echo -e "\e[${colors[kernelcl]}m$kname $kvers\e[0m"
+      echo -e "\e[${cl[kernelcl]}m$kname $kvers\e[0m"
       ;;
     no_version)
-      echo -e "\e[${colors[kernelcl]}m$kname $karch\e[0m"
+      echo -e "\e[${cl[kernelcl]}m$kname $karch\e[0m"
       ;;
     short)
-      echo -e "\e[${colors[kernelcl]}m$kname\e[0m"
+      echo -e "\e[${cl[kernelcl]}m$kname\e[0m"
       ;;
     *)
-      echo -e "\e[${colors[kernelcl]}m$kname $kvers $karch\e[0m"
+      echo -e "\e[${cl[kernelcl]}m$kname $kvers $karch\e[0m"
       ;;
   esac
 }
 
-txclock() {
-  local h24 h12 m s tz h12fmt
+tclock() {
+  local h24 h12 h12fmt tz m s
   h24=$(date +"%H")
   h12=$(date +"%I")
   h12fmt=$(date +"%p")
+  tz=$(date +"%Z")
   m=$(date +"%M")
   s=$(date +"%S")
-  tz=$(date +"%Z")
 
   case "$clock" in
     h24_full)
-      echo -e "\e[${colors[clockcl]}m$h24:$m:$s $tz\e[0m"
+      echo -e "\e[${cl[clockcl]}m$h24:$m:$s $tz\e[0m"
       ;;
     h12_full)
-      echo -e "\e[${colors[clockcl]}m$h12:$m:$s $h12fmt $tz\e[0m"
+      echo -e "\e[${cl[clockcl]}m$h12:$m:$s $h12fmt $tz\e[0m"
       ;;
     h24_no_second)
-      echo -e "\e[${colors[clockcl]}m$h24:$m $tz\e[0m"
+      echo -e "\e[${cl[clockcl]}m$h24:$m $tz\e[0m"
       ;;
     h12_no_second)
-      echo -e "\e[${colors[clockcl]}m$h12:$m $h12fmt $tz\e[0m"
+      echo -e "\e[${cl[clockcl]}m$h12:$m $h12fmt $tz\e[0m"
       ;;
     h24_no_tz)
-      echo -e "\e[${colors[clockcl]}m$h24:$m:$s\e[0m"
+      echo -e "\e[${cl[clockcl]}m$h24:$m:$s\e[0m"
       ;;
     h12_no_tz)
-      echo -e "\e[${colors[clockcl]}m$h12:$m:$s $h12fmt\e[0m"
+      echo -e "\e[${cl[clockcl]}m$h12:$m:$s $h12fmt\e[0m"
       ;;
     h24_short)
-      echo -e "\e[${colors[clockcl]}m$h24:$m\e[0m"
+      echo -e "\e[${cl[clockcl]}m$h24:$m\e[0m"
       ;;
     h12_short)
-      echo -e "\e[${colors[clockcl]}m$h12:$m $h12fmt\e[0m"
+      echo -e "\e[${cl[clockcl]}m$h12:$m $h12fmt\e[0m"
       ;;
     *)
-      echo -e "\e[${colors[clockcl]}m$clock\e[0m"
+      echo -e "\e[${cl[clockcl]}m$clock\e[0m"
       ;;
   esac
 }
 
-txdate() {
+tdate() {
   local ldate lday sday lmonth lsmonth smonth lyear syear
   ldate=$(date +"%d")
   lday=$(date +"%A")
@@ -322,30 +514,30 @@ txdate() {
 
   case "$date" in
     long)
-      echo -e "\e[${colors[datecl]}m$lday, $ldate $lmonth $lyear\e[0m"
+      echo -e "\e[${cl[datecl]}m$lday, $ldate $lmonth $lyear\e[0m"
       ;;
     short)
-      echo -e "\e[${colors[datecl]}m$ldate/$smonth/$lyear\e[0m"
+      echo -e "\e[${cl[datecl]}m$ldate/$smonth/$lyear\e[0m"
       ;;
     long_short)
-      echo -e "\e[${colors[datecl]}m$sday, $ldate $lsmonth $lyear\e[0m"
+      echo -e "\e[${cl[datecl]}m$sday, $ldate $lsmonth $lyear\e[0m"
       ;;
     long_no_day)
-      echo -e "\e[${colors[datecl]}m$ldate $lmonth $lyear\e[0m"
+      echo -e "\e[${cl[datecl]}m$ldate $lmonth $lyear\e[0m"
       ;;
     long_nd_short)
-      echo -e "\e[${colors[datecl]}m$ldate $lsmonth $lyear\e[0m"
+      echo -e "\e[${cl[datecl]}m$ldate $lsmonth $lyear\e[0m"
       ;;
     short_year)
-      echo -e "\e[${colors[datecl]}m$ldate/$smonth/$syear\e[0m"
+      echo -e "\e[${cl[datecl]}m$ldate/$smonth/$syear\e[0m"
       ;;
     *)
-      echo -e "\e[${colors[datecl]}m$date\e[0m"
+      echo -e "\e[${cl[datecl]}m$date\e[0m"
       ;;
   esac
 }
 
-txpower() {
+tpower() {
   local BAT0cap BAT0sts ADP1 ADP1sts AC ACsts TYPE
 
   if [ -f "/sys/class/power_supply/BAT0/capacity" ]; then
@@ -386,98 +578,98 @@ txpower() {
     TYPE="Battery"
     case "$power" in
       full)
-        echo -e "\e[${colors[powercl]}m$TYPE $BAT0cap% ($BAT0sts)\e[0m"
+        echo -e "\e[${cl[powercl]}m$TYPE $BAT0cap% ($BAT0sts)\e[0m"
         ;;
       hide_type)
-        echo -e "\e[${colors[powercl]}m$BAT0cap% ($BAT0sts)\e[0m"
+        echo -e "\e[${cl[powercl]}m$BAT0cap% ($BAT0sts)\e[0m"
         ;;
       hide_plugged)
         if [ "$BAT0sts" = "Charging" ]; then
-          echo -e "\e[${colors[powercl]}m$TYPE $BAT0cap%\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE $BAT0cap%\e[0m"
         else
-          echo -e "\e[${colors[powercl]}m$TYPE $BAT0cap% ($BAT0sts)\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE $BAT0cap% ($BAT0sts)\e[0m"
         fi
         ;;
       hide_unplugged)
         if [ "$BAT0sts" = "Discharging" ]; then
-          echo -e "\e[${colors[powercl]}m$TYPE $BAT0cap%\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE $BAT0cap%\e[0m"
         else
-          echo -e "\e[${colors[powercl]}m$TYPE $BAT0cap% ($BAT0sts)\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE $BAT0cap% ($BAT0sts)\e[0m"
         fi
         ;;
       no_status)
-        echo -e "\e[${colors[powercl]}m$TYPE $BAT0cap%\e[0m"
+        echo -e "\e[${cl[powercl]}m$TYPE $BAT0cap%\e[0m"
         ;;
       *)
-        echo -e "\e[${colors[powercl]}m$TYPE $BAT0cap% ($BAT0sts)\e[0m"
+        echo -e "\e[${cl[powercl]}m$TYPE $BAT0cap% ($BAT0sts)\e[0m"
         ;;
     esac
   elif [ -d "/sys/class/power_supply/ADP1" ]; then
     TYPE="Adapter"
     case "$power" in
       full)
-        echo -e "\e[${colors[powercl]}m$TYPE ($ADP1sts)\e[0m"
+        echo -e "\e[${cl[powercl]}m$TYPE ($ADP1sts)\e[0m"
         ;;
       hide_type)
-        echo -e "\e[${colors[powercl]}m$ADP1sts\e[0m"
+        echo -e "\e[${cl[powercl]}m$ADP1sts\e[0m"
         ;;
       hide_plugged)
         if [ "$ADP1" -eq 1 ]; then
-          echo -e "\e[${colors[powercl]}m$TYPE\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE\e[0m"
         else
-          echo -e "\e[${colors[powercl]}m$TYPE ($ADP1sts)\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE ($ADP1sts)\e[0m"
         fi
         ;;
       hide_unplugged)
         if [ "$ADP1" -eq 0 ]; then
-          echo -e "\e[${colors[powercl]}m$TYPE\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE\e[0m"
         else
-          echo -e "\e[${colors[powercl]}m$TYPE ($ADP1sts)\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE ($ADP1sts)\e[0m"
         fi
         ;;
       no_status)
-        echo -e "\e[${colors[powercl]}m$TYPE\e[0m"
+        echo -e "\e[${cl[powercl]}m$TYPE\e[0m"
         ;;
       *)
-        echo -e "\e[${colors[powercl]}m$TYPE ($ADP1sts)\e[0m"
+        echo -e "\e[${cl[powercl]}m$TYPE ($ADP1sts)\e[0m"
         ;;
     esac
   elif [ -d "/sys/class/power_supply/AC" ]; then
     TYPE="AC"
     case "$power" in
       full)
-        echo -e "\e[${colors[powercl]}m$TYPE ($ACsts)\e[0m"
+        echo -e "\e[${cl[powercl]}m$TYPE ($ACsts)\e[0m"
         ;;
       hide_type)
-        echo -e "\e[${colors[powercl]}m$ACsts\e[0m"
+        echo -e "\e[${cl[powercl]}m$ACsts\e[0m"
         ;;
       hide_plugged)
         if [ "$AC" -eq 1 ]; then
-          echo -e "\e[${colors[powercl]}m$TYPE\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE\e[0m"
         else
-          echo -e "\e[${colors[powercl]}m$TYPE ($ACsts)\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE ($ACsts)\e[0m"
         fi
         ;;
       hide_unplugged)
         if [ "$AC" -eq 0 ]; then
-          echo -e "\e[${colors[powercl]}m$TYPE\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE\e[0m"
         else
-          echo -e "\e[${colors[powercl]}m$TYPE ($ACsts)\e[0m"
+          echo -e "\e[${cl[powercl]}m$TYPE ($ACsts)\e[0m"
         fi
         ;;
       no_status)
-        echo -e "\e[${colors[powercl]}m$TYPE\e[0m"
+        echo -e "\e[${cl[powercl]}m$TYPE\e[0m"
         ;;
       *)
-        echo -e "\e[${colors[powercl]}m$TYPE ($ACsts)\e[0m"
+        echo -e "\e[${cl[powercl]}m$TYPE ($ACsts)\e[0m"
         ;;
     esac
   else
-    echo -e "\e[${colors[powercl]}m[unknown_power_source]\e[0m"
+    echo -e "\e[${cl[powercl]}m[unknown_power_source]\e[0m"
   fi
 }
 
-txuptime() {
+tuptime() {
   local full no_second tiny tiny_no_second
   full=$(awk '{print int($1/3600)"hours "int(($1%3600)/60)"minutes "int($1%60)"seconds"}' /proc/uptime)
   no_second=$(awk '{print int($1/3600)"hours "int(($1%3600)/60)"minutes"}' /proc/uptime)
@@ -486,52 +678,71 @@ txuptime() {
 
   case "$uptime" in
     full)
-      echo -e "\e[${colors[uptimecl]}m$full\e[0m"
+      echo -e "\e[${cl[uptimecl]}m$full\e[0m"
       ;;
     no_second)
-      echo -e "\e[${colors[uptimecl]}m$no_second\e[0m"
+      echo -e "\e[${cl[uptimecl]}m$no_second\e[0m"
       ;;
     tiny)
-      echo -e "\e[${colors[uptimecl]}m$tiny\e[0m"
+      echo -e "\e[${cl[uptimecl]}m$tiny\e[0m"
       ;;
     tiny_no_second)
-      echo -e "\e[${colors[uptimecl]}m$tiny_no_second\e[0m"
+      echo -e "\e[${cl[uptimecl]}m$tiny_no_second\e[0m"
       ;;
     *)
-      echo -e "\e[${colors[uptimecl]}m$tiny_no_second\e[0m"
+      echo -e "\e[${cl[uptimecl]}m$tiny_no_second\e[0m"
       ;;
   esac
+}
+
+newline() {
+  echo ""
 }
 
 yield() {
   if [ "$#" -eq 2 ]; then
     case "$separator" in
       hide)
-        echo -en "\e[${colors[textcl]}m$1\e[0m "
+        echo -en "\e[${cl[textcl]}m$1\e[0m "
         ;;
       *)
-        echo -en "\e[${colors[textcl]}m$1\e[0m \e[${colors[separatorcl]}m$separator\e[0m "
+        echo -en "\e[${cl[textcl]}m$1\e[0m \e[${cl[separatorcl]}m$separator\e[0m "
         ;;
     esac
     if declare -F "$2" > /dev/null; then
       "$2"
     else
-      echo -e "[\e[${colors[0]}mError\e[0m: \e[${colors[3]}m'$2'\e[0m is not a function]"
+      echo -e "\e[${cl[textcl]}m$2\e[0m"
     fi
   elif [ "$#" -eq 1 ]; then
     if declare -F "$1" > /dev/null; then
       "$1"
     elif [ "$1" = "newline" ]; then
-      echo ""
-    elif [ "$1" = "title" ]; then
-      echo -e "\e[${colors[tuxtitlecl]}m$tuxtitle\e[0m"
+      newline
     else
-      echo -e "\e[${colors[textcl]}m$1\e[0m"
+      echo -e "\e[${cl[textcl]}m$1\e[0m"
     fi
   else
-    echo -e "Usage: yield \e[${colors[3]}m<prefix>\e[0m \e[${colors[5]}m<function>\e[0m"
-    echo -e "       yield \e[${colors[3]}m<string/function>\e[0m"
+    echo -e "Usage: yield [string] [string|function]"
+    echo -e "       yield [string|function]"
   fi
 }
 
-tuxify
+if declare -F tuxify > /dev/null; then
+  tuxify
+else
+  tuxify() {
+    yield "Tuxfetch"
+    yield newline
+    yield "User     " tuser
+    yield "Host     " thost
+    yield "Distro   " tdistro
+    yield "Kernel   " tkernel
+    yield "Clock    " tclock
+    yield "Date     " tdate
+    yield "Power    " tpower
+    yield "Uptime   " tuptime
+    yield newline
+  }
+  tuxify
+fi

@@ -1,28 +1,43 @@
+# SPDX-License-Identifier: MIT
+#
+# init
+#
+# Copyright (C) 2025 Farhan Kurnia Pratama
+#
+# GitHub     : https://github.com/farhnkrnapratma/tuxfetch
+# Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
+#
 name: Makefile CI
 
 on:
   push:
     branches:
       - main
-    paths:
-      - Makefile
+      - dev
       
   pull_request:
     branches:
       - main
-    paths:
-      - Makefile
+      - dev
 
 jobs:
   makefile-test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Install
-      run: make install
-    - name: Update
-      run: make update
-    - name: Uninstall
-      run: make uninstall
-    - name: Clean Update
-      run: make clean-update
+      - name: Checkout 
+        uses: actions/checkout@v4
+
+      - name: Install
+        run: make install
+
+      - name: Update
+        run: make update
+
+      - name: Clean Update
+        run: make clean-update
+    
+      - name: Uninstall
+        run: make uninstall
+
+      - name: Clean Uninstall
+        run: make clean-uninstall
