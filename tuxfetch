@@ -10,7 +10,7 @@
 # Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
 #
 latest_version="0.2.6"
-Release date="Thursday, February 27, 2025, 19:30 GMT+7"
+release_date="Thursday, February 27, 2025, 19:30 GMT+7"
 release_code="TXF026P20250227T1930000700"
 license="MIT License"
 github_url="https://github.com/farhnkrnapratma/tuxfetch"
