@@ -305,25 +305,26 @@ fi
 
 cl=(31 32 33 34 35 36 37 91 92 93 94 95 96 97)
 
-: ${host:="short"}
-: ${distro:="full"}
-: ${kernel:="full"}
-: ${clock:="h24_full"}
-: ${date:="long"}
-: ${power:="full"}
-: ${uptime:="tiny_no_second"}
-: ${separator:=":"}
-: ${globalcl:="no"}
-: ${textcl:="5"}
-: ${separatorcl:="13"}
-: ${usercl:="3"}
-: ${hostcl:="4"}
-: ${distrocl:="0"}
-: ${kernelcl:="1"}
-: ${clockcl:="1"}
-: ${datecl:="2"}
-: ${powercl:="5"}
-: ${uptimecl:="10"}
+: "${host:="short"}"
+: "${distro:="full"}"
+: "${kernel:="full"}"
+: "${clock:="h24_full"}"
+: "${date:="long"}"
+: "${power:="full"}"
+: "${uptime:="tiny_no_second"}"
+: "${separator:=":"}"
+: "${globalcl:="no"}"
+: "${textcl:="5"}"
+: "${separatorcl:="13"}"
+: "${usercl:="3"}"
+: "${hostcl:="4"}"
+: "${distrocl:="0"}"
+: "${kernelcl:="1"}"
+: "${clockcl:="1"}"
+: "${datecl:="2"}"
+: "${powercl:="5"}"
+: "${uptimecl:="10"}"
+
 
 case "$globalcl" in
     [0-9] | 1[0-3])
@@ -352,6 +353,7 @@ c_uname_r=$(uname -r)
 c_uname_m=$(uname -m)
 
 if [ -f /etc/os-release ]; then
+    # shellcheck source=/etc/os-release
     . /etc/os-release
     c_os_name="${NAME}"
     c_os_version="${VERSION}"
@@ -359,6 +361,7 @@ else
     c_os_name="Unknown"
     c_os_version="Unknown"
 fi
+
 
 c_hour24=$(date +"%H")
 c_minute=$(date +"%M")
