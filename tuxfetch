@@ -353,7 +353,7 @@ c_uname_r=$(uname -r)
 c_uname_m=$(uname -m)
 
 if [ -f /etc/os-release ]; then
-    # shellcheck source=/etc/os-release
+    # shellcheck disable=SC1091
     . /etc/os-release
     c_os_name="${NAME}"
     c_os_version="${VERSION}"
