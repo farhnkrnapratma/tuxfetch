@@ -9,75 +9,66 @@
 # GitHub     : https://github.com/farhnkrnapratma/tuxfetch
 # Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
 #
-latest_version="0.2.6"
-release_date="Thursday, February 27, 2025, 19:30 GMT+7"
-release_code="TXF026P20250227T193000700"
+latest_version="0.2.7"
+release_date="Thursday, February 27, 2025, 20:30 GMT+7"
+release_code="TXF027S20250227T2030000700"
 license="MIT License"
 github_url="https://github.com/farhnkrnapratma/tuxfetch"
 
 tuxman() {
-    check_version=$(git ls-remote --tags "$github_url".git | sed -n 's?.*refs/tags/??p' | sed 's/\^{}//' | sort -V | tail -n 1)
-    case "$1" in
-        update | clean-update)
-            stripped_check_version="${check_version#v}"
-            IFS=. read -r check_major check_minor _ <<<"$stripped_check_version"
-            IFS=. read -r current_major current_minor _ <<<"$latest_version"
-            if (( check_major > current_major )) || (( check_major == current_major && check_minor > current_minor )); then
-                echo -e "New Tuxfetch version ($check_version) is available on GitHub."
-                echo -en "Perform $1 now? [Y/n] "
-                read -r update_option
-                update_option=${update_option:-Y}
-                case "$update_option" in
-                    Y | y)
-                        echo "Updating Tuxfetch..."
-                        git clone "$github_url".git "$HOME/tuxfetch"
-                        cd "$HOME/tuxfetch" || exit
-                        make "$1"
-                        cd "$HOME" || exit
-                        rm -rf "$HOME/tuxfetch"
-                        echo "Tuxfetch updated successfully."
-                        ;;
-                    N | n)
-                        echo "Update canceled."
-                        ;;
-                    *)
-                        echo "Invalid option: '$update_option'. Aborted."
-                        ;;
-                esac
-            else
-                echo -e "Tuxfetch (v$latest_version) is already the latest version."
-            fi
-            ;;
-        uninstall | clean-uninstall)
-            echo -en "Confirm $1 of Tuxfetch? [Y/n] "
-            read -r uninstall_option
-            uninstall_option=${uninstall_option:-Y}
-            case "$uninstall_option" in
-                Y | y)
-                    echo "Uninstalling Tuxfetch..."
-                    case "$1" in
-                        uninstall)
-                            sudo rm -rf "/usr/bin/tuxfetch"
-                            ;;
-                        clean-uninstall)
-                            rm -rf "$HOME/.config/tuxfetch"
-                            sudo rm -rf "/usr/bin/tuxfetch"
-                            ;;
-                    esac
-                    echo "Tuxfetch uninstalled successfully."
-                    ;;
-                N | n)
-                    echo "Uninstall canceled."
-                    ;;
-                *)
-                    echo "Invalid option: '$uninstall_option'. Aborted."
-                    ;;
-            esac
-            ;;
+  check_version=$(git ls-remote --tags "$github_url".git | sed -n 's?.*refs/tags/??p' | sed 's/\^{}//' | sort -V | tail -n 1)
+  case "$1" in
+    update|clean-update)
+      stripped_check_version="${check_version#v}"
+      IFS=. read -r check_major check_minor check_patch <<< "$stripped_check_version"
+      IFS=. read -r current_major current_minor current_patch <<< "$latest_version"
+      if (( check_major > current_major )) || \
+         (( check_major == current_major && check_minor > current_minor )) || \
+         (( check_major == current_major && check_minor == current_minor && check_patch > current_patch )); then
+        echo -e "New Tuxfetch version ($check_version) is available on GitHub."
+        echo -en "Perform $1 now? [Y/n] "
+        read -r update_option
+        update_option=${update_option:-Y}
+        case "$update_option" in
+          Y|y)
+            echo "Updating Tuxfetch..."
+            git clone "$github_url".git "$HOME/tuxfetch"
+            cd "$HOME/tuxfetch" || exit
+            make "$1"
+            cd "$HOME" || exit
+            rm -rf "$HOME/tuxfetch"
+            echo "Tuxfetch updated successfully." ;;
+          N|n)
+            echo "Update canceled." ;;
+          *)
+            echo "Invalid option: '$update_option'. Aborted." ;;
+        esac
+      else
+        echo -e "Tuxfetch (v$latest_version) is already the latest version."
+      fi ;;
+    uninstall|clean-uninstall)
+      echo -en "Confirm $1 of Tuxfetch? [Y/n] "
+      read -r uninstall_option
+      uninstall_option=${uninstall_option:-Y}
+      case "$uninstall_option" in
+        Y|y)
+          echo "Uninstalling Tuxfetch..."
+          case "$1" in
+            uninstall)
+              sudo rm -rf "/usr/bin/tuxfetch" ;;
+            clean-uninstall)
+              rm -rf "$HOME/.config/tuxfetch"
+              sudo rm -rf "/usr/bin/tuxfetch" ;;
+          esac
+          echo "Tuxfetch uninstalled successfully." ;;
+        N|n)
+          echo "Uninstall canceled." ;;
         *)
-            echo "Invalid argument: '$1'. Aborted."
-            ;;
-    esac
+          echo "Invalid option: '$uninstall_option'. Aborted." ;;
+      esac ;;
+    *)
+      echo "Invalid argument: '$1'. Aborted." ;;
+  esac
 }
 
 options=(
