@@ -24,4 +24,15 @@ Release date: Monday, February 24, 2025, 10:20 GMT+7 (`TXF020P20250224T102000700
 - Optimized Makefile to give users more flexible choices.
 - Added new flags for the `tuxfetch` command.
 - New documentation of Tuxfetch, read `README.md` for details.
-- Other major and minor additions, improvements, and fixes.
+- Other improvements, and fixes.
+
+## `v0.2.6`
+
+Release date: Thursday, February 27, 2025, 19:30 GMT+7 (`TXF026P20250227T1930000700`)
+
+- Removed colored output in help, version, and update messages.
+- Refactored the tuxer function for creating the default configuration.
+- Precomputed system variables (hostname, OS, kernel, time, uptime) to reduce repeated command calls.
+- Fixed uptime calculation logic with a sysctl fallback.
+- Improved overall code formatting and structure.
+- Other improvements, and fixes.
