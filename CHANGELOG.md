@@ -28,7 +28,7 @@ Release date: Monday, February 24, 2025, 10:20 GMT+7 (`TXF020P20250224T102000700
 
 ## `v0.2.6`
 
-Release date: Thursday, February 27, 2025, 19:30 GMT+7 (`TXF026P20250227T1930000700`)
+Release date: Thursday, February 27, 2025, 19:30 GMT+7 (`TXF026P20250227T193000700`)
 
 - Removed colored output in help, version, and update messages.
 - Refactored the tuxer function for creating the default configuration.
