@@ -8,8 +8,6 @@
 # Maintainer : Farhan Kurnia Pratama <farhnkrnapratma@gmail.com>
 # 
 tuxify() {
-  yield "Tuxfetch"
-  yield newline
   yield "User     " tuser
   yield "Host     " thost
   yield "Distro   " tdistro
@@ -18,7 +16,6 @@ tuxify() {
   yield "Date     " tdate
   yield "Power    " tpower
   yield "Uptime   " tuptime
-  yield newline
 }
 
 # Tuxfetch Options
