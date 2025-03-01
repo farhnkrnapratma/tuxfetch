@@ -14,11 +14,17 @@ on:
     branches:
       - main
       - dev
+    paths:
+      - Makefile
+      - Tuxfetch
       
   pull_request:
     branches:
       - main
       - dev
+    paths:
+      - Makefile
+      - Tuxfetch
 
 jobs:
   makefile-test:
