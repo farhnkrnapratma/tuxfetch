@@ -14,55 +14,43 @@ A minimalist fetch for Linux created using Bash v5+.
 
 ## Managing Tuxfetch
 
-### Clone the Repository
+### 1. Clone the Repository
 
 ```bash
-# at terminal
-
 $ git clone https://github.com/farhnkrnapratma/tuxfetch.git
 ```
 
-### Navigate to the Directory
+### 2. Navigate to the Directory
 
 ```bash
-# at terminal
-
 $ cd path/to/tuxfetch
 ```
 
-### Installation
+### 3. Installation
 
 ```Bash
-# at path/to/tuxfetch
-
 $ make install                # install Tuxfetch and generate the default configuration file
 ```
 
-### Updating
+### 4. Updating
 
 ```Bash
-# at path/to/tuxfetch
-
 $ make update                 # update Tuxfetch to the latest version (preserves existing configurations)
                               # or
-$ make clean-update           # update Tuxfetch and regenerate the configuration file (resets to default settings)
+$ make clean-update           # update Tuxfetch and regenerate the configuration file (resets to default settings
 ```
 
-### Uninstallation
+### 5. Uninstallation
 
 ```Bash
-# at path/to/tuxfetch
-
 $ make uninstall              # remove Tuxfetch (preserves configuration files)
                               # or
 $ make clean-uninstall        # remove Tuxfetch and delete all associated configuration files
 ```
 
-### Post Installation
+### 5. Post Installation
 
 ```Bash
-# at terminal
-
 $ tuxfetch --update           # equivalent to make update command
 $ tuxfetch --clean-update     # equivalent to make clean-update command
 $ tuxfetch --uninstall        # equivalent to make uninstall command
@@ -73,19 +61,17 @@ $ tuxfetch --clean-uninstall  # equivalent to make clean-uninstall command
 
 You can edit the configuration at `$HOME/.config/tuxfetch/init`.
 
-### `tuxify` Function
+### The `tuxify` Function
 
 The `tuxify` function serves as the primary entry point for processing and displaying output generated within it, such as output from the `yield` function. Since `tuxify` is a Bash function, you can freely customize its output behavior according to your needs. Ensure that any modifications you make adhere to valid Bash syntax rules.
 
-### `yield` Function
+### The `yield` Function
 
 The `yield` function is a built-in function of Tuxfetch that is used to return or display output similar to `echo` by having to accept at least one argument and at most two arguments. The first argument can accept a string or function such as `tuser`, `thost`, etc. If `yield` is given two arguments then the first argument must be a string used as a label and will automatically include a `separator` between the output of the first and second arguments, while the second argument can be a string or function such as `tuser`, `thost`, etc.
 
 **Usage:**
 
 ```Bash
-# at $HOME/.config/tuxfetch/init
-
 tuxify()
 {
   yield [string|function]             # one argument
@@ -96,8 +82,6 @@ tuxify()
 **Valid Examples:**
 
 ```Bash
-# at $HOME/.config/tuxfetch/init
-
 tuxify()
 {
   yield "Hello, World!"
@@ -203,14 +187,10 @@ Below are two tables listing the available `date` command options. You can use t
 #### Examples
 
 ```Bash
-# at $HOME/.config/tuxfetch/init
-
 clock="%H:%M:%S"       # Expected output: 14:30:15
 ```
 
 ```Bash
-# at $HOME/.config/tuxfetch/init
-
 date="%m/%d/%Y"        # Expected output: 02/19/2025
 ```
 
