@@ -14,11 +14,15 @@ on:
     branches:
       - main
       - dev
+    paths:
+      - tuxfetch
       
   pull_request:
     branches:
       - main
       - dev
+    paths:
+      - tuxfetch
       
 jobs:
   lint-and-test:
